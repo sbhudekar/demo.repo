@@ -8,7 +8,7 @@ pipeline {
         maven 'maven_3.8.6'
     }
 
-      }
+
         stage('Code Compilation') {
             steps {
                 echo 'Code Compilation is In Progress!'
@@ -31,6 +31,6 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-      }
+
     }
 }
