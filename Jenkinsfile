@@ -2,8 +2,8 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
-#    agent any
-     agent {label 'StakeholdetA_java'}
+#   agent
+    agent { label 'StakeholdetA_java' }
 
     tools {
         maven 'apache-maven-3.6.3'
