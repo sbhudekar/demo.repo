@@ -72,7 +72,7 @@ pipeline {
                      withCredentials([string(credentialsId: 'dockerV', variable: 'dockerV')]) {
                      sh 'docker login docker.io -u sbhudekar -p ${dockerV}'
                      echo "Push Docker Image to DockerHub : In Progress"
-                     sh 'docker push sbhudekar/demo-2:latest'
+                     sh 'docker push sbhudekar/demo-docker-ms:latest'
                      echo "Push Docker Image to DockerHub : In Progress"
                      sh 'whoami'
                   }
