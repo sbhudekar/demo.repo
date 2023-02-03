@@ -43,12 +43,12 @@ pipeline {
             }
         }
     stage('Building  Docker Image') {
-             steps {
+            steps {
                     echo 'Starting Building Docker Image'
                     sh 'docker build -t sbhudekar/demo .'
                     sh 'docker build -t demo-ms .'
                     echo 'Completed  Building Docker Image'
-             }
+            }
          }
 
             stage('Tagging Docker Image') {
