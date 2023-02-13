@@ -100,7 +100,7 @@ pipeline {
             stage('Upload the docker Image to Nexus') {
                steps {
                   script {
-                     withDockerRegistry(credentialsId: 'ecr:ap-northeast-1:awsecr-D', url: 'http://35.77.228.52:8081/repository/demo/') {
+                     withRegistry(nexusArtifactUploader credentialsId: 'ecr:ap-northeast-1:aws-ecr-D', groupId: 'mywebapp', nexusUrl: '35.77.228.52:8081/#admin/repository/repositories:demo', nexusVersion: 'nexus2', protocol: 'http', repository: 'demo', version: '3.45.0-01') {
                      sh 'docker login http://35.77.228.52:8081/repository/demo/ -u admin -p ${nexus}'
                      echo "Push Docker Image to Nexus : In Progress"
                      sh 'docker tag demo 35.77.228.52:8081/demo:latest'
