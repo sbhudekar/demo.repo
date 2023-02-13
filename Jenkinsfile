@@ -94,10 +94,9 @@ pipeline {
                       echo "Push Docker Image to ECR : Completed"
                       """
                   }
-              }
-           }
-        }
-            /**
+               }
+            }
+         }
             stage('Upload the docker Image to Nexus') {
                steps {
                   script {
@@ -111,12 +110,11 @@ pipeline {
               }
             }
          }
-            **/
             stage('Deploy App to K8s Cluster') {
                 steps {
                     sh 'whoami'
                     sh 'kubectl apply -f kubernetes/yatra-ms-prod'
-                 }
+                }
             }
          }
    }
