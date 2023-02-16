@@ -101,7 +101,7 @@ pipeline {
                steps {
                   script {
                      withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'password', usernameVariable: 'username')]) {
-                     sh 'docker login docker.io -u sbhudekar p ${dockerD}'
+                     sh 'docker login docker.io -u sbhudekar -p ${dockerD}'
                      echo "Push Docker Image to Nexus : In Progress"
                      sh 'docker tag demo 35.77.228.52:8081/demo:latest'
                      sh 'docker push 35.77.228.52:8081/demo'
