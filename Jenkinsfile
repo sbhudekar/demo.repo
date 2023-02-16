@@ -111,10 +111,10 @@ pipeline {
             }
          }
             stage('Deploy App to K8s Cluster') {
-                steps {
-                    sh 'whoami'
-                    sh 'kubectl apply -f kubernetes/yatra-ms-prod'
-                }
+               steps {
+                     sh 'whoami'
+                     sh 'kubectl apply -f kubernetes/yatra-ms-prod'
             }
-         }
+        }
+    }
 }
