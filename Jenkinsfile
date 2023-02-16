@@ -106,17 +106,22 @@ pipeline {
                      sh 'docker tag demo 35.77.228.52:8081/demo:latest'
                      sh 'docker push 35.77.228.52:8081/demo'
                      echo "Push Docker Image to Nexus : Completed"
-                  }
+                }
               }
             }
-         }
-            stage('Deploy App to K8s Cluster') {
-               steps {
-                     sh 'whoami'
-                     sh 'kubectl apply -f kubernetes/yatra-ms-prod'
-                }
-               }
-            }
         }
+
+        stage('Deploy App to K8s Cluster') {
+            steps {
+                sh 'whoami'
+                sh 'kubectl apply -f Kubernetes/prod'
+            }
+
+        }/**
+        stage('Deploy App to K8s Cluster') {
+          withKubeConfig([credentialsId: 'kuberneteskubeconfig', serverUrl: 'https://api.myprodcluster.in']) {
+                sh 'kubectl apply -f kubernetes/prod'
+            }
+        }**/
     }
 }
