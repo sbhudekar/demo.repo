@@ -121,6 +121,6 @@ pipeline {
                    withKubeConfig([credentialsId: 'kuberneteskubeconfig', serverUrl: 'https://api.myprodcluster.in']) {
                   sh 'kubectl apply -f kubernetes/prod'
                 }
-            }
+         }
     }
 }
