@@ -100,7 +100,7 @@ pipeline {
             stage('Upload the docker Image to Nexus') {
                steps {
                   script {
-                     sh 'docker login docker.io -u sbhudekar -p ${dockerD} http://35.78.101.90:8081/repository/demo/'
+                     sh 'docker login docker.io -u sbhudekar -p ${Pratima@2000} http://35.78.101.90:8081/repository/demo/'
                      echo "Push Docker Image to Nexus : In Progress"
                      sh 'docker tag demo 35.77.228.52:8081/demo:latest'
                      sh 'docker push 35.77.228.52:8081/demo'
