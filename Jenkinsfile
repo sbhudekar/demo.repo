@@ -100,7 +100,7 @@ pipeline {
             stage('Upload the docker Image to Nexus') {
                steps {
                   script {
-                     nexusArtifactUploader artifacts: [[artifactId: 'demo', classifier: '', file: '/var/lib/jenkins/workspace/new-pipeline-01@2/tnexusArtifactUploader artifacts: [[artifactId: 'demo', classifier: '', file: '/var/lib/jenkins/workspace/new-pipeline-01@2/target/demo-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '35.78.101.90:8081/repository/demo/', nexusVersion: 'nexus2', protocol: 'http', repository: 'demo', version: '0.0.1-SNAPSHOT'arget/demo', type: 'jar']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '35.78.101.90:8081/repository/demo/', nexusVersion: 'nexus2', protocol: 'http', repository: 'demo', version: '0.0.1-SNAPSHOT'
+                     nexusArtifactUploader artifacts: [[artifactId: 'demo', classifier: '', file: '/var/lib/jenkins/workspace/new-pipeline-01@2/target', type: 'jar']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '35.78.101.90:8081/repository/demo/', nexusVersion: 'nexus2', protocol: 'http', repository: 'demo', version: '0.0.1-SNAPSHOT'
                      sh 'docker login docker.io -u sbhudekar -p ${dockerD} http://35.78.101.90:8081/repository/demo/'
                      echo "Push Docker Image to Nexus : In Progress"
                      sh 'docker tag demo 35.77.228.52:8081/demo:latest'
