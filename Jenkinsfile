@@ -110,18 +110,18 @@ pipeline {
               }
             }
         }
-
-        stage('Deploy App to K8s Cluster') {
-            steps {
-                sh 'whoami'
-                sh 'kubectl apply -f Kubernetes/prod'
+            stage('Deploy App to K8s Cluster') {
+               steps {
+                     sh 'whoami'
+                     sh 'kubectl apply -f Kubernetes/prod'
             }
 
         }/**
-        stage('Deploy App to K8s Cluster') {
-          withKubeConfig([credentialsId: 'kuberneteskubeconfig', serverUrl: 'https://api.myprodcluster.in']) {
+             stage('Deploy App to K8s Cluster') {
+                withKubeConfig([credentialsId: 'kuberneteskubeconfig', serverUrl: 'https://api.myprodcluster.in']) {
                 sh 'kubectl apply -f kubernetes/prod'
             }
         }**/
+       }
     }
 }
