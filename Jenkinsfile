@@ -47,8 +47,8 @@ pipeline {
         stage('Building  Docker Image') {
             steps {
                 echo 'Starting Building Docker Image'
-                sh 'docker build -t sbhudekar/demo .'
-                sh 'docker build -t demo .'
+                sh 'docker build -t sbhudekar/saurabh1 .'
+                sh 'docker build -t saurabh1 .'
                 echo 'Completed  Building Docker Image'
             }
         }
@@ -74,7 +74,7 @@ pipeline {
                  withCredentials([string(credentialsId: 'dockerD', variable: 'dockerD')]){
                  sh 'docker login docker.io -u sbhudekar -p ${dockerD}'
                  echo "Push Docker Image to DockerHub : In Progress"
-                 sh 'docker push sbhudekar/demo:latest'
+                 sh 'docker push sbhudekar/saurabh1:latest'
                  echo "Push Docker Image to DockerHub : In Progress"
                  sh 'whoami'
                  }
@@ -108,8 +108,8 @@ pipeline {
                   sh 'docker login http://13.231.120.27:8085/repository/demo/ -u admin -p ${PASSWORD}'
                   echo "Push Docker Image to Nexus : In Progress"
                   echo "Push Docker Image to Nexus : In Progress"
-                  sh 'docker tag demo 13.231.120.27:8085/demo:latest'
-                  sh 'docker push 13.231.120.27:8085/demo'
+                  sh 'docker tag demo 13.231.120.27:8085/saurabh1:latest'
+                  sh 'docker push 13.231.120.27:8085/saurabh1'
                   echo "Push Docker Image to Nexus : Completed"
                  }
               }
