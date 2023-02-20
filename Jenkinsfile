@@ -48,7 +48,7 @@ pipeline {
             steps {
                 echo 'Starting Building Docker Image'
                 sh 'docker build -t sbhudekar/demo .'
-                sh 'docker build -t demo-ms .'
+                sh 'docker build -t demo .'
                 echo 'Completed  Building Docker Image'
             }
         }
