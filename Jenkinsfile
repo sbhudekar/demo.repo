@@ -97,17 +97,17 @@ pipeline {
                }
             }
          }
-            stage('Upload the docker Image to Nexus') {
-               steps {
+             stage('Upload the docker Image to Nexus') {
+              steps {
                   script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerD', passwordVariable: 'password', usernameVariable: 'username')]) {
-                     sh 'docker login docker.io -u sbhudekar -p ${dockerD} http://13.231.120.27:8085/repository/demo/'
+                    withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                     sh 'docker login http://34.204.18.96:8085/repository/yatra-ms/ -u admin -p ${PASSWORD}'
                      echo "Push Docker Image to Nexus : In Progress"
-                     sh 'docker tag demo 13.231.120.27:8085/demo:latest'
-                     sh 'docker push 13.231.120.27:8085/demo'
+                     echo "Push Docker Image to Nexus : In Progress"
+                     sh 'docker tag yatra2we 34.204.18.96:8085/yatra2we:latest'
+                     sh 'docker push 34.204.18.96:8085/yatra2we'
                      echo "Push Docker Image to Nexus : Completed"
-                }
+                 }
               }
             }
         }
-
