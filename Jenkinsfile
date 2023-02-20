@@ -1,4 +1,5 @@
 pipeline {
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
@@ -42,71 +43,89 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-    stage('Building  Docker Image') {
+
+        stage('Building  Docker Image') {
             steps {
-                    echo 'Starting Building Docker Image'
-                    sh 'docker build -t sbhudekar/demo .'
-                    sh 'docker build -t demo-ms .'
-                    echo 'Completed  Building Docker Image'
+                echo 'Starting Building Docker Image'
+                sh 'docker build -t sbhudekar/demo .'
+                sh 'docker build -t demo-ms .'
+                echo 'Completed  Building Docker Image'
             }
-         }
+        }
 
-            stage('Tagging Docker Image') {
-                steps {
-                    echo 'Creating War Artifact'
-                    sh 'java -version'
-                    sh 'mvn clean package'
+        stage('Tagging Docker Image') {
+            steps {
+                echo 'Creating War Artifact'
+                sh 'java -version'
+                sh 'mvn clean package'
             }
-         }
+        }
 
-            stage('Docker Image Scanning') {
-                steps {
-                    echo 'Creating War Artifact'
-                    sh 'java -version'
-                    sh 'mvn clean package'
+        stage('Docker Image Scanning') {
+            steps {
+                echo 'Creating War Artifact'
+                sh 'java -version'
+                sh 'mvn clean package'
             }
-         }
-            stage(' Docker push to Docker Hub') {
-               steps {
-                  script {
-                     withCredentials([string(credentialsId: 'dockerD', variable: 'dockerD')]) {
-                     sh 'docker login docker.io -u sbhudekar -p ${dockerD}'
-                     echo "Push Docker Image to DockerHub : In Progress"
-                     sh 'docker push sbhudekar/demo:latest'
-                     echo "Push Docker Image to DockerHub : In Progress"
-                     sh 'whoami'
-                  }
-               }
-            }
-         }
-            stage(' Docker Image Push to Amazon ECR') {
-              steps {
-                  script {
-                    withDockerRegistry(credentialsId: 'ecr:ap-northeast-1:aws-ecr-D', toolName: 'Docker', url: 'https://844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr') {
-                      sh """
-                      echo "List the docker images present in local"
-                      docker images
-                      echo "Tagging the Docker Image: In Progress"
-                      docker tag demo-ecr:latest 844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr:latest
-                      echo "Tagging the Docker Image: Completed"
-                      echo "Push Docker Image to ECR : In Progress"
-                      docker push 844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr:latest
-                      echo "Push Docker Image to ECR : Completed"
-                  }
-               }
-            }
-         }
-             stage('Upload the docker Image to Nexus') {
-              steps {
-                  script {
-                    withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                     sh 'docker login http://34.204.18.96:8085/repository/yatra-ms/ -u admin -p ${PASSWORD}'
-                     echo "Push Docker Image to Nexus : In Progress"
-                     echo "Push Docker Image to Nexus : In Progress"
-                     sh 'docker tag yatra2we 34.204.18.96:8085/yatra2we:latest'
-                     sh 'docker push 34.204.18.96:8085/yatra2we'
-                     echo "Push Docker Image to Nexus : Completed"
+        }
+        stage(' Docker push to Docker Hub') {
+           steps {
+              script {
+                 withCredentials([string(credentialsId: 'dockerD', variable: 'dockerD')]){
+                 sh 'docker login docker.io -u sbhudekar -p ${dockerD}'
+                 echo "Push Docker Image to DockerHub : In Progress"
+                 sh 'docker push sbhudekar/demo:latest'
+                 echo "Push Docker Image to DockerHub : In Progress"
+                 sh 'whoami'
                  }
               }
             }
         }
+
+        stage(' Docker Image Push to Amazon ECR') {
+           steps {
+              script {
+                 withDockerRegistry(credentialsId: 'ecr:ap-northeast-1:aws-ecr-D', toolName: 'Docker', url: 'https://844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr') {
+                 sh """
+                 echo "List the docker images present in local"
+                 docker images
+                 echo "Tagging the Docker Image: In Progress"
+                 docker tag demo-ecr:latest 844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr:latest
+                 echo "Tagging the Docker Image: Completed"
+                 echo "Push Docker Image to ECR : In Progress"
+                 docker push 844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr:latest
+                 echo "Push Docker Image to ECR : Completed"
+                 """
+                 }
+              }
+           }
+        }
+
+        stage('Upload the docker Image to Nexus') {
+           steps {
+              script {
+                withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                  sh 'docker login http://34.204.18.96:8085/repository/yatra-ms/ -u admin -p ${PASSWORD}'
+                  echo "Push Docker Image to Nexus : In Progress"
+                  echo "Push Docker Image to Nexus : In Progress"
+                  sh 'docker tag yatra2we 34.204.18.96:8085/yatra2we:latest'
+                  sh 'docker push 34.204.18.96:8085/yatra2we'
+                  echo "Push Docker Image to Nexus : Completed"
+                 }
+              }
+            }
+        }
+
+        stage('Deploy App to K8s Cluster') {
+            steps {
+                sh 'whoami'
+                sh 'kubectl apply -f Kubernetes/prod'
+            }
+
+        }/**
+        stage('Deploy App to K8s Cluster') {
+          withKubeConfig([credentialsId: 'kuberneteskubeconfig', serverUrl: 'https://api.myprodcluster.in']) {
+                sh 'kubectl apply -f kubernetes/prod'
+            }
+        }**/
+    }}
