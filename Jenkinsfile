@@ -108,7 +108,7 @@ pipeline {
                   sh 'docker login http://13.231.120.27:8085/repository/demo/ -u admin -p ${PASSWORD}'
                   echo "Push Docker Image to Nexus : In Progress"
                   echo "Push Docker Image to Nexus : In Progress"
-                  sh 'docker tag yatra2we 13.231.120.27:8085/demo:latest'
+                  sh 'docker tag demo 13.231.120.27:8085/demo:latest'
                   sh 'docker push 13.231.120.27:8085/demo'
                   echo "Push Docker Image to Nexus : Completed"
                  }
