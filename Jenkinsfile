@@ -92,7 +92,6 @@ pipeline {
                       echo "Push Docker Image to ECR : In Progress"
                       docker push 844317626697.dkr.ecr.ap-northeast-1.amazonaws.com/demo-ecr:latest
                       echo "Push Docker Image to ECR : Completed"
-                      """
                   }
                }
             }
